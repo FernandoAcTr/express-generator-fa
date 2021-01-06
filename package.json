@@ -1,0 +1,27 @@
+{
+  "name": "express-generator-fa",
+  "version": "1.0.0",
+  "description": "Express template generator using hbs view engine",
+  "main": "dist/index.js",
+  "bin": "dist/index.js",
+  
+  "scripts": {
+    "start": "node dist/index init"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/FernandoAcTr/express-generator-fa.git"
+  },
+  "author": "Fernando Acosta",
+  "license": "ISC",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "shelljs": "^0.8.4",
+    "yargs": "^16.2.0"
+  },
+  "devDependencies": {},
+  "bugs": {
+    "url": "https://github.com/FernandoAcTr/express-generator-fa/issues"
+  },
+  "homepage": "https://github.com/FernandoAcTr/express-generator-fa#readme"
+}
