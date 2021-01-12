@@ -33,14 +33,16 @@ class Content {
 
   getSettingsContent() {
     return `
-    class Settings {
-      constructor() {
-        this.PORT = process.env.PORT || 3000;
-        this.ENVIROMENT = process.env.NODE_ENV || 'dev';
-      }
-    }
-    
-    module.exports = new Settings();`;
+    export {
+      PORT: process.env.PORT || 3000,
+      secret: process.env.JWT_SECRET || 'somesecrettoken',
+      DB: {
+        URI: process.env.MONGODB_URI || 'mongodb://localhost/jwtpassport',
+        USER: process.env.MONGODB_USER,
+        PASSWORD: process.env.MONGODB_PASSWORD,
+      },
+    };    
+    `;
   }
 
   getRouterContent() {

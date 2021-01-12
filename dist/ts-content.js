@@ -54,17 +54,15 @@ class Content {
 
   getSettingsContent() {
     return `
-    class Settings {
-      public PORT: any;
-      public ENVIRONMENT: string;
-    
-      constructor() {
-        this.PORT = process.env.PORT || 3000;
-        this.ENVIRONMENT = process.env.NODE_ENV || 'dev';
-      }
-    }
-    
-    export default new Settings();
+    export default {
+      PORT: process.env.PORT || 3000,
+      secret: process.env.JWT_SECRET || 'somesecrettoken',
+      DB: {
+        URI: process.env.MONGODB_URI || 'mongodb://localhost/jwtpassport',
+        USER: process.env.MONGODB_USER,
+        PASSWORD: process.env.MONGODB_PASSWORD,
+      },
+    };    
     `;
   }
 
