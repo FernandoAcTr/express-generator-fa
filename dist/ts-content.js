@@ -4,11 +4,11 @@ class Content {
     import express from 'express';
     import morgan from 'morgan';
     import cors from 'cors';
-    import hbs from 'hbs';
+    import handlerbars from 'express-handlebars';
     import path from 'path';
     
     //importin routes
-    import routes from './routes/router.routes';
+    import routes from './routes/index.routes';
     
     //importing configs
     import settings from './config/settings';
@@ -25,8 +25,17 @@ class Content {
     
       config() {
         //Espress hbs engine
+        this.app.set('views', path.join(__dirname, 'views'));
+        this.app.engine(
+          '.hbs',
+          handlerbars({
+            extname: '.hbs',
+            layoutsDir: path.join(this.app.get('views'), 'layouts'),
+            partialsDir: path.join(this.app.get('views'), 'partials'),
+            defaultLayout: 'main',
+          })
+        );
         this.app.set('view engine', 'hbs');
-        hbs.registerPartials(path.join(__dirname, 'views', 'partials'));
       }
     
       middlewares() {
@@ -68,14 +77,14 @@ class Content {
 
   getRouterContent() {
     return `
-    import express from 'express'
-    const app = express();
+    import {Router} from 'express'
+    const router = Router();
     
-    //importing all routes
+    //importing all routes here
     
-    app.get('/', (req, res) => res.send('Hello World!'));
+    router.get('/', (req, res) => res.json({ hello: 'Wordl' }));
     
-    export default app;
+    export default router;
     `;
   }
 }

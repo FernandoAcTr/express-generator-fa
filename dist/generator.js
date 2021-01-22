@@ -12,18 +12,17 @@ class Generator {
     fs.writeFileSync('./src/config/settings.js', JScontent.getSettingsContent());
 
     fs.writeFileSync(
-      './src/routes/router.routes.js',
+      './src/routes/index.routes.js',
       JScontent.getRouterContent()
     );
 
     fs.writeFileSync('./src/views/index.hbs', '');
-    fs.writeFileSync('./src/views/partials/header.hbs', '');
-    fs.writeFileSync('./src/views/partials/footer.hbs', '');
+    fs.writeFileSync('./src/views/layouts/main.hbs', '');
 
     this.createCommonFiles();
 
     console.log('================= Installing modules ================='.yellow);
-    shell.exec('npm i express morgan hbs cors');
+    shell.exec('npm i express morgan express-handlebars cors');
   }
 
   initWithTS() {
@@ -33,20 +32,19 @@ class Generator {
     fs.writeFileSync('./src/config/settings.ts', TSContent.getSettingsContent());
 
     fs.writeFileSync(
-      './src/routes/router.routes.ts',
+      './src/routes/index.routes.ts',
       TSContent.getRouterContent()
     );
 
     fs.writeFileSync('./src/views/index.hbs', '');
-    fs.writeFileSync('./src/views/partials/header.hbs', '');
-    fs.writeFileSync('./src/views/partials/footer.hbs', '');
+    fs.writeFileSync('./src/views/layouts/main.hbs', '');
 
     this.createCommonFiles();
 
     console.log('================= Installing modules ================='.yellow);
-    shell.exec('npm i express morgan hbs cors');
+    shell.exec('npm i express morgan express-handlebars cors');
     console.log('================= Installing dev modules ================='.yellow);
-    shell.exec('npm i -D @types/express @types/morgan @types/hbs @types/cors @types/node typescript tsc-watch');
+    shell.exec('npm i -D @types/express @types/morgan @types/express-handlebars @types/cors @types/node typescript tsc-watch');
     console.log('================= Init tsc ================='.yellow);
     shell.exec('tsc --init')
   }
@@ -73,6 +71,10 @@ class Generator {
     });
 
     fs.mkdirSync('./src/views/partials', {
+      recursive: true,
+    });
+
+    fs.mkdirSync('./src/views/layouts', {
       recursive: true,
     });
 

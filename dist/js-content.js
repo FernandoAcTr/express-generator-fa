@@ -3,12 +3,11 @@ class Content {
     return `
     const express = require('express');
     const path = require('path');
-    const hbs = require('hbs');
+    const handlerbars = require('express-handlebars');
     const cors = require('cors');
     const morgan = require('morgan');
     const settings = require('./config/settings')
-    const router = require('./routes/router.routes');
-    
+      
     const app = express();
     
     //middlewares
@@ -21,11 +20,20 @@ class Content {
     app.use(express.static(path.join(__dirname, 'public')));
     
     //Espress hbs engine
+    app.set('views', path.join(__dirname, 'views'));
+    app.engine(
+      '.hbs',
+      handlerbars({
+        extname: '.hbs',
+        layoutsDir: path.join(app.get('views'), 'layouts'),
+        partialsDir: path.join(app.get('views'), 'partials'),
+        defaultLayout: 'main',
+      })
+    );
     app.set('view engine', 'hbs');
-    hbs.registerPartials(path.join(__dirname, 'views', 'partials'));
     
     //definig routes
-    app.use(router)
+    app.use(require('./routes/index.routes'))
     
     //init server
     app.listen(settings.PORT, () => console.log('Server listen on port ' + settings.PORT));`;
@@ -46,14 +54,14 @@ class Content {
   }
 
   getRouterContent() {
-    return `const express = require('express');
-    const app = express();
+    return `const { Router } = require('express');
+    const router = Router();
     
-    //importing all routes
+    //importing all routes here
     
-    app.get('/', (req, res) => res.send('Hello World!'));
+    router.get('/', (req, res) => res.json({ hello: 'Wordl' }));
     
-    module.exports = app;
+    module.exports = router;
     `;
   }
 }
