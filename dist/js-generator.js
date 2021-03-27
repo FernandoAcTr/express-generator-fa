@@ -11,6 +11,10 @@ const ormContent = require('./code/js/orm')
 const envContent = require('./code/js/env')
 const gitContent = require('./code/js/gitIgnore')
 
+//apionly content
+const indexApiContent = require('./code/js/api-only/index')
+const validateBody = require('./code/js/api-only/validate-middleware')
+
 class Generator {
   init() {
     this.createDirStructure()
@@ -28,10 +32,31 @@ class Generator {
     fs.writeFileSync('./src/models/User.js', '')
 
     console.log('================= Installing modules ================='.yellow)
-    shell.exec('npm i express express-session dotenv passport passport-local morgan express-handlebars csurf typeorm connect-flash')
+    shell.exec(
+      'npm i express express-session dotenv passport passport-local morgan express-handlebars csurf typeorm connect-flash'
+    )
   }
 
-  createDirStructure() {
+  initForApi() {
+    this.createDirStructure(false)
+    fs.writeFileSync('./src/index.js', indexApiContent)
+    fs.writeFileSync('./src/config/settings.js', settingsContent)
+    fs.writeFileSync('./src/middlewares/validateBody.js', validateBody)
+    fs.writeFileSync('./src/routes/index.routes.js', routerContent)
+    fs.writeFileSync('./ormconfig.json', ormContent)
+    fs.writeFileSync('./.env', envContent)
+    fs.writeFileSync('./.gitignore', gitContent)
+    fs.writeFileSync('./README.md', '')
+
+    fs.writeFileSync('./src/models/User.js', '')
+
+    console.log('================= Installing modules ================='.yellow)
+    shell.exec(
+      'npm i express express-validator jsonwebtoken cors dotenv passport passport-jwt morgan typeorm'
+    )
+  }
+
+  createDirStructure(webapp = true) {
     fs.mkdirSync('./src', {
       recursive: true,
     })
@@ -52,25 +77,27 @@ class Generator {
       recursive: true,
     })
 
-    fs.mkdirSync('./src/views/partials', {
-      recursive: true,
-    })
-
-    fs.mkdirSync('./src/views/layouts', {
-      recursive: true,
-    })
-
     fs.mkdirSync('./src/config', {
       recursive: true,
     })
 
-    fs.mkdirSync('./public/css', {
-      recursive: true,
-    })
+    if (webapp) {
+      fs.mkdirSync('./src/views/partials', {
+        recursive: true,
+      })
 
-    fs.mkdirSync('./public/js', {
-      recursive: true,
-    })
+      fs.mkdirSync('./src/views/layouts', {
+        recursive: true,
+      })
+
+      fs.mkdirSync('./public/css', {
+        recursive: true,
+      })
+
+      fs.mkdirSync('./public/js', {
+        recursive: true,
+      })
+    }
   }
 }
 

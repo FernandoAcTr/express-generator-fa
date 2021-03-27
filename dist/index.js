@@ -6,12 +6,14 @@ const TSGenerator = require('./ts-generator')
 require('colors')
 
 let comando = argv._[0]
-
 switch (comando) {
   case 'init':
     if (argv.typescript) {
       console.log('Initializing express with typescript...')
-      TSGenerator.init()
+
+      if (argv.apiOnly) TSGenerator.initForApi()
+      else TSGenerator.init()
+
       console.log(
         '================= Add dev script manually ================='.yellow
       )
@@ -23,7 +25,8 @@ switch (comando) {
       )
     } else {
       console.log('Initializing express...')
-      JSGenerator.init()
+      if (argv.apiOnly) JSGenerator.initForApi()
+      else JSGenerator.init()
     }
     break
 
