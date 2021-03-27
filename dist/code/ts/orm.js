@@ -9,13 +9,13 @@ const content =
   "synchronize": true,
   "logging": false,
   "entities": [
-     "src/entity/**/*.js"
+     "src/entity/**/*.ts"
   ],
   "migrations": [
-     "src/migration/**/*.js"
+     "src/migration/**/*.ts"
   ],
   "subscribers": [
-     "src/subscriber/**/*.js"
+     "src/subscriber/**/*.ts"
   ]
 }
 `
