@@ -1,7 +1,7 @@
 const content = 
-`PORT=
-JWT_SECRET=
-MONGODB_URI=
+`PORT=3000
+SECRET=somesecrettoken
+MONGODB_URI=mongodb://localhost/db_name
 MONGODB_USER=
 MONGODB_PASSWORD=
 DB_HOST=

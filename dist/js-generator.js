@@ -18,7 +18,7 @@ class Generator {
     fs.writeFileSync('./src/config/settings.js', settingsContent)
     fs.writeFileSync('./src/routes/index.routes.js', routerContent)
     fs.writeFileSync('./src/middlewares/locals.js', localsContent)
-    fs.writeFileSync('./src/ormconfig.json', ormContent)
+    fs.writeFileSync('./ormconfig.json', ormContent)
     fs.writeFileSync('./.env', envContent)
     fs.writeFileSync('./.gitignore', gitContent)
     fs.writeFileSync('./README.md', '')
