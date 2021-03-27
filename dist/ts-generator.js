@@ -61,14 +61,14 @@ class Generator {
 
     console.log('================= Installing modules ================='.yellow)
     shell.exec(
-      'npm i express cors jsonwebtoken dotenv passport passport-jwt morgan typeorm'
+      'npm i express express-validator cors jsonwebtoken dotenv passport passport-jwt morgan typeorm'
     )
 
     console.log(
       '================= Installing dev modules ================='.yellow
     )
     shell.exec(
-      'npm i -D @types/express @types/cors @types/jsonwebtoken @types/passport @types/passport-jwt @types/morgan @types/node typescript tsc-watch'
+      'npm i -D @types/express @types/express-validator @types/cors @types/jsonwebtoken @types/passport @types/passport-jwt @types/morgan @types/node typescript tsc-watch'
     )
     console.log('================= Init tsc ================='.yellow)
     shell.exec('tsc --init')
