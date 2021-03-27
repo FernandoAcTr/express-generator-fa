@@ -36,7 +36,7 @@ class Generator {
       '================= Installing dev modules ================='.yellow
     )
     shell.exec(
-      'npm i -D @types/express @types/express-session @types/dotenv @types/passport @types/passport-local @types/morgan @types/express-handlebars @types/csurf @types/connect-flash @types/node typescript tsc-watch'
+      'npm i -D @types/express @types/express-session @types/passport @types/passport-local @types/morgan @types/express-handlebars @types/csurf @types/connect-flash @types/node typescript tsc-watch'
     )
     console.log('================= Init tsc ================='.yellow)
     shell.exec('tsc --init')

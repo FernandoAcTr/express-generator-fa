@@ -7,6 +7,7 @@ import flash from 'connect-flash'
 import path from 'path'
 import csurf from 'csurf'
 import locals from './middlewares/locals'
+import morgan from 'morgan'
 
 //importin routes
 import routes from './routes/index.routes';
