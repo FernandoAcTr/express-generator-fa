@@ -72,6 +72,14 @@ class Generator {
     )
     console.log('================= Init tsc ================='.yellow)
     shell.exec('tsc --init')
+    shell.exec(
+      `npm set-script dev "tsc-watch --onSuccess \"node build/index\""`
+    )
+    shell.exec(
+      'npm set-script views "nodemon -e hbs -w src/views -x cp -r src/views build"'
+    )
+    shell.exec('npm set-script start "node build"')
+    shell.exec('npm set-script "tsc && cp -r src/views build"')
   }
 
   createDirStructure(webapp = true) {

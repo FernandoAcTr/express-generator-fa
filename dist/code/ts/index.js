@@ -57,7 +57,7 @@ class Server {
     this.app.use(passport.session())
     this.app.use(csurf())
     this.app.use(locals)
-    this.app.use(express.static(path.join(__dirname, 'public')))
+    this.app.use(express.static(path.resolve('public')))
   }
 
   routes() {
