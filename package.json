@@ -1,6 +1,6 @@
 {
   "name": "express-generator-fa",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "Express template generator using hbs view engine",
   "main": "dist/index.js",
   "bin": "dist/index.js",
