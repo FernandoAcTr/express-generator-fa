@@ -4,7 +4,7 @@ You only have to execute
 
 1. npm init
 2. npm i -g express-generator-fa
-3. express-generator-fa init  
+3. express-generator-fa init
 
 This will generate an express proyect with hbs as view engine.
 
@@ -22,3 +22,15 @@ And now additionaly to --typescript option you can exec
 `express-generator-fa init --api-only`
 
 if you only want a structure for an API
+
+Note: You must configure by your hand tsconfig.json and set the next properties
+
+- "outDir": "./build"
+- "rootDir": "./src"
+
+aditionally if you want to use TypeORM, just in the documemntation of them, you need to set the next properties
+- "target": "es6"
+- "lib": ["ES5","ES6"]
+- "strictPropertyInitialization": false
+- "experimentalDecorators": true
+- "emitDecoratorMetadata": true
