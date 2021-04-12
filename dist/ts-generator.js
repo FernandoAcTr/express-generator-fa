@@ -40,18 +40,26 @@ class Generator {
       '================= Installing dev modules ================='.yellow
     )
     shell.exec(
-      'npm i -D @types/express @types/express-session @types/passport @types/passport-local @types/morgan @types/express-handlebars @types/csurf @types/connect-flash @types/node typescript tsc-watch'
+      'npm i -D @types/express @types/express-session @types/passport @types/passport-local @types/morgan @types/express-handlebars @types/csurf @types/connect-flash @types/node typescript tsc-watch concurrently nodemon ts-node'
     )
     console.log('================= Init tsc ================='.yellow)
     shell.exec('tsc --init')
     shell.exec(
-      `npm set-script dev 'tsc-watch --onSuccess "node build/index"'`
+      `npm set-script watch-ts 'tsc-watch --onSuccess "node build/index"'`
     )
     shell.exec(
-      'npm set-script views "nodemon -e hbs -w src/views -x cp -r src/views build"'
+      'npm set-script watch-hbs "nodemon -e hbs -w src/views -x cp -r src/views build"'
     )
-    shell.exec('npm set-script start "node build"')
+    shell.exec('npm set-script clean "rm -rf build & rm -rf node_modules"')
     shell.exec('npm set-script build "tsc && cp -r src/views build"')
+    shell.exec('npm set-script start "node build"')
+    shell.exec(`npm set-script dev 'concurrently "npm:watch-*"'`)
+    shell.exec(
+      'npm set-script migration:run "ts-node ./node_modules/typeorm/cli.js migration:run'
+    )
+    shell.exec(
+      'npm set-script migration:revert "ts-node ./node_modules/typeorm/cli.js migration:revert'
+    )
   }
 
   initForApi() {
@@ -60,7 +68,6 @@ class Generator {
     fs.writeFileSync('./src/config/settings.ts', settingsContent)
     fs.writeFileSync('./src/routes/index.routes.ts', routerContent)
     fs.writeFileSync('./src/middlewares/validateBody.ts', validateBody)
-    fs.writeFileSync('./ormconfig.json', ormContent)
     fs.writeFileSync('./.env', envContent)
     fs.writeFileSync('./.gitignore', gitContent)
     fs.writeFileSync('./README.md', '')
@@ -80,6 +87,16 @@ class Generator {
     )
     console.log('================= Init tsc ================='.yellow)
     shell.exec('tsc --init')
+    shell.exec(`npm set-script dev 'tsc-watch --onSuccess "node build/index"'`)
+    shell.exec('npm set-script clean "rm -rf build & rm -rf node_modules"')
+    shell.exec('npm set-script build "tsc"')
+    shell.exec('npm set-script start "node build"')
+    shell.exec(
+      'npm set-script migration:run "ts-node ./node_modules/typeorm/cli.js migration:run'
+    )
+    shell.exec(
+      'npm set-script migration:revert "ts-node ./node_modules/typeorm/cli.js migration:revert'
+    )
   }
 
   createDirStructure(webapp = true) {
