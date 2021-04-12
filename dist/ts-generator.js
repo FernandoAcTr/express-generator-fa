@@ -22,7 +22,6 @@ class Generator {
     fs.writeFileSync('./src/config/settings.ts', settingsContent)
     fs.writeFileSync('./src/routes/index.routes.ts', routerContent)
     fs.writeFileSync('./src/middlewares/locals.ts', localsContent)
-    fs.writeFileSync('./ormconfig.json', ormContent)
     fs.writeFileSync('./.env', envContent)
     fs.writeFileSync('./.gitignore', gitContent)
     fs.writeFileSync('./README.md', '')
@@ -55,10 +54,10 @@ class Generator {
     shell.exec('npm set-script start "node build"')
     shell.exec(`npm set-script dev 'concurrently "npm:watch-*"'`)
     shell.exec(
-      'npm set-script migration:run "ts-node ./node_modules/typeorm/cli.js migration:run'
+      'npm set-script migration:run "ts-node ./node_modules/typeorm/cli.js migration:run"'
     )
     shell.exec(
-      'npm set-script migration:revert "ts-node ./node_modules/typeorm/cli.js migration:revert'
+      'npm set-script migration:revert "ts-node ./node_modules/typeorm/cli.js migration:revert"'
     )
   }
 
@@ -92,10 +91,10 @@ class Generator {
     shell.exec('npm set-script build "tsc"')
     shell.exec('npm set-script start "node build"')
     shell.exec(
-      'npm set-script migration:run "ts-node ./node_modules/typeorm/cli.js migration:run'
+      'npm set-script migration:run "ts-node ./node_modules/typeorm/cli.js migration:run"'
     )
     shell.exec(
-      'npm set-script migration:revert "ts-node ./node_modules/typeorm/cli.js migration:revert'
+      'npm set-script migration:revert "ts-node ./node_modules/typeorm/cli.js migration:revert"'
     )
   }
 
