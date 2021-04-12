@@ -48,7 +48,7 @@ class Generator {
       `npm set-script watch-ts 'tsc-watch --onSuccess "node build/index"'`
     )
     shell.exec(
-      'npm set-script watch-hbs "nodemon -e hbs -w src/views -x cp -r src/views build"'
+      'npm set-script watch-hbs "mkdir build & nodemon -e hbs -w src/views -x cp -r src/views build"'
     )
     shell.exec('npm set-script clean "rm -rf build & rm -rf node_modules"')
     shell.exec('npm set-script build "tsc && cp -r src/views build"')
