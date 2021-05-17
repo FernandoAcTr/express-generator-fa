@@ -3,17 +3,22 @@ const fs = require('fs')
 var shell = require('shelljs')
 
 //import content
-const indexContent = require('./code/ts/index')
-const settingsContent = require('./code/ts/settings')
-const routerContent = require('./code/ts/router')
-const localsContent = require('./code/ts/locals-middleware')
-const ormContent = require('./code/ts/orm')
-const envContent = require('./code/ts/env')
-const gitContent = require('./code/ts/gitIgnore')
+const indexContent = require('./code/index')
+const settingsContent = require('./code/settings')
+const routerContent = require('./code/router')
+const localsContent = require('./code/locals-middleware')
+const ormContent = require('./code/orm')
+const envContent = require('./code/env')
+const gitContent = require('./code/gitIgnore')
+const tsConfig = require('./code/tsconfig')
+const database = require('./code/database')
 
 //apionly content
-const indexApiContent = require('./code/ts/api-only/index')
-const validateBody = require('./code/ts/api-only/validate-middleware')
+const indexApiContent = require('./code/api-only/index')
+const validateBody = require('./code/api-only/validate-body')
+const errorHandler = require('./code/api-only/error-handler')
+const expressValidators = require('./code/api-only/express-validators')
+const rateLimiter = require('./code/api-only/rate-limiter')
 
 class Generator {
   init() {
@@ -22,13 +27,13 @@ class Generator {
     fs.writeFileSync('./src/config/settings.ts', settingsContent)
     fs.writeFileSync('./src/routes/index.routes.ts', routerContent)
     fs.writeFileSync('./src/middlewares/locals.ts', localsContent)
+    fs.writeFileSync('./src/database/database.ts', database)
     fs.writeFileSync('./.env', envContent)
     fs.writeFileSync('./.gitignore', gitContent)
     fs.writeFileSync('./README.md', '')
 
     fs.writeFileSync('./src/views/index.hbs', '')
     fs.writeFileSync('./src/views/layouts/main.hbs', '')
-    fs.writeFileSync('./src/models/User.ts', '')
 
     console.log('================= Installing modules ================='.yellow)
     shell.exec(
@@ -43,6 +48,7 @@ class Generator {
     )
     console.log('================= Init tsc ================='.yellow)
     shell.exec('tsc --init')
+    fs.writeFileSync('tsconfig.json', tsConfig)
     shell.exec(
       `npm set-script watch-ts 'tsc-watch --onSuccess "node build/index"'`
     )
@@ -59,6 +65,9 @@ class Generator {
     shell.exec(
       'npm set-script migration:revert "ts-node ./node_modules/typeorm/cli.js migration:revert"'
     )
+    shell.exec(
+      'npm set-script migration:generate "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:generate --name"'
+    )
   }
 
   initForApi() {
@@ -66,35 +75,45 @@ class Generator {
     fs.writeFileSync('./src/index.ts', indexApiContent)
     fs.writeFileSync('./src/config/settings.ts', settingsContent)
     fs.writeFileSync('./src/routes/index.routes.ts', routerContent)
-    fs.writeFileSync('./src/middlewares/validateBody.ts', validateBody)
+    fs.writeFileSync('./src/middlewares/validate_body.ts', validateBody)
+    fs.writeFileSync('./src/middlewares/error_handler.ts', errorHandler)
+    fs.writeFileSync('./src/middlewares/rate_limiter.ts', rateLimiter)
+    fs.writeFileSync(
+      './src/middlewares/express_validators.ts',
+      expressValidators
+    )
+    fs.writeFileSync('./src/database/database.ts', database)
+    fs.writeFileSync('./ormconfig.json', ormContent)
     fs.writeFileSync('./.env', envContent)
     fs.writeFileSync('./.gitignore', gitContent)
     fs.writeFileSync('./README.md', '')
 
-    fs.writeFileSync('./src/models/User.ts', '')
-
     console.log('================= Installing modules ================='.yellow)
     shell.exec(
-      'npm i express express-validator cors jsonwebtoken dotenv passport passport-jwt morgan typeorm'
+      'npm i express express-validator cors bcrypt jsonwebtoken dotenv passport passport-jwt morgan helmet rate-limiter-flexible'
     )
 
     console.log(
       '================= Installing dev modules ================='.yellow
     )
     shell.exec(
-      'npm i -D @types/express @types/cors @types/jsonwebtoken @types/passport @types/passport-jwt @types/morgan @types/node typescript tsc-watch'
+      'npm i -D @types/express @types/cors @types/bcrypt @types/jsonwebtoken @types/passport @types/passport-jwt @types/morgan @types/node typescript tsc-watch ts-node typeorm'
     )
     console.log('================= Init tsc ================='.yellow)
     shell.exec('tsc --init')
+    fs.writeFileSync('tsconfig.json', tsConfig)
     shell.exec(`npm set-script dev 'tsc-watch --onSuccess "node build/index"'`)
     shell.exec('npm set-script clean "rm -rf build & rm -rf node_modules"')
     shell.exec('npm set-script build "tsc"')
     shell.exec('npm set-script start "node build"')
     shell.exec(
-      'npm set-script migration:run "ts-node ./node_modules/typeorm/cli.js migration:run"'
+      'npm set-script migration:run "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:run"'
     )
     shell.exec(
-      'npm set-script migration:revert "ts-node ./node_modules/typeorm/cli.js migration:revert"'
+      'npm set-script migration:revert "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:revert"'
+    )
+    shell.exec(
+      'npm set-script migration:generate "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:generate --name"'
     )
   }
 
@@ -103,11 +122,19 @@ class Generator {
       recursive: true,
     })
 
+    fs.mkdirSync('./src/database', {
+      recursive: true,
+    })
+
+    fs.mkdirSync('./src/database/migrations', {
+      recursive: true,
+    })
+
     fs.mkdirSync('./src/middlewares', {
       recursive: true,
     })
 
-    fs.mkdirSync('./src/models', {
+    fs.mkdirSync('./src/entities', {
       recursive: true,
     })
 

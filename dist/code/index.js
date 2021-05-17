@@ -13,7 +13,7 @@ import morgan from 'morgan'
 import routes from './routes/index.routes';
 
 //importing configs
-import settings from './config/settings';
+import {settings} from './config/settings';
 
 class Server {
   public app: express.Application;
