@@ -10,7 +10,7 @@ import { handleErrorMiddleware } from './middlewares/error_handler'
 import routes from './routes/index.routes'
 
 //importing configs
-import settings from './config/settings'
+import {settings} from './config/settings'
 
 class Server {
   public app: express.Application
