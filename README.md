@@ -1,3 +1,7 @@
+# DEPRECATED
+
+This package is deprecated and it will not receive mantain. Please consider use this package instead: https://github.com/FernandoAcTr/node-express-cli
+
 This package generate a basic structure of express proyect.
 
 You only have to execute
